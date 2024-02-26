@@ -1,37 +1,95 @@
-const express = require('express');
-const mysql = require('mysql2');
+const express = require("express");
 const cors = require("cors");
+const mysql = require("mysql2");
+
+// import express from 'express';
+// import cors from 'cors'
+// import mysql from 'mysql2';
 
 const app = express();
-const port = 3001;
-app.use(express.json());
 app.use(cors());
+app.use(express.json());
 
 const db = mysql.createConnection({
-  host: 'localhost',
-  user: 'root',
-  password: 'Kar@db04',
-  database: 'library'
+  host: "bvyrzgprsirjd4scgf56-mysql.services.clever-cloud.com",
+  user: "uw95kkpnzf5b1qwn",
+  password: "mD4BJPRXBUSurc78BkPN",
+  database: "bvyrzgprsirjd4scgf56",
 });
 
-db.connect((err) => {
-  if (err) {
-    throw err;
-  }
-  console.log('Connected to MySQL database');
-});
+// db.connect((err) => {
+//   if (err) {
+//     console.log(err.message);
+//     return;
+//   }
+//   console.log('DB connected')
+// })
 
-app.get('/books', (req, res) => {
-  const sql = 'SELECT title, author, subject, publish_date FROM books';
-  db.query(sql, (err, result) => {
+
+
+//app.get("/", (req, res) => {
+//  res.json("hello");
+//});
+
+app.get("/books", (req, res) => {
+  const q = "SELECT * FROM books";
+  db.query(q, (err, data) => {
     if (err) {
-      throw err;
+      console.log(err);
+      return res.status(400).json(err);
     }
-    console.log(result)
-    res.json(result);
+    return res.json(data);
   });
 });
 
-app.listen(port, () => {
-  console.log(`Server is running on port ${port}`);
+app.post("/books", (req, res) => {
+  const q = "INSERT INTO books(title, author, subject, publish_date) VALUES (?, ?, ?, ?)";
+
+  const values = [
+    req.body.title,
+    req.body.author,
+    req.body.subject,
+    req.body.publish_date,
+  ]; 
+
+  db.query(q, values, (err, data) => {
+    if (err) {
+      console.log(err);
+    } //return res.send(err);
+    console.log("created");
+
+    
+  });
+  res.status(200).send({message:"created"});
 });
+
+app.delete("/books/:id", (req, res) => {
+  const bookId = req.params.id;
+  const q = " DELETE FROM books WHERE id = ? ";
+
+  db.query(q, [bookId], (err, data) => {
+    if (err) return res.send(err);
+    return res.json(data);
+  });
+});
+
+app.put("/books/:id", (req, res) => {
+  const bookId = req.params.id;
+  const q = "UPDATE books SET title= ?, author= ?,subject= ?, publish_date = ? WHERE id = ?";
+
+  const values = [
+    req.body.title,
+    req.body.author,
+    req.body.subject,
+    req.body.publish_date,
+  ];
+
+  db.query(q, [...values,bookId], (err, data) => {
+    if (err) return res.send(err);
+    return res.json(data);
+  });
+});
+
+app.listen(8800, () => {
+  console.log("Connected to backend.");
+})

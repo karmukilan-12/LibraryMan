@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import {Link} from "react-router-dom";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import "./Login.css";
@@ -11,7 +12,7 @@ const Login = ({ setIsAuthenticated }) => {
     e.preventDefault();
 
     // Perform basic authentication
-    if ((username === 'admin' && password === 'password') || (username === "kar" && password === 'Kar@04')) {
+    if ((username === 'user' && password === 'password') || (username === "kar" && password === 'Kar@04')) {
       // Set authentication state to true
       setIsAuthenticated(true);
       // Show success toast
@@ -62,6 +63,7 @@ const Login = ({ setIsAuthenticated }) => {
         </div>
         <button type="submit" className="submit-button">Login</button>
       </form>
+      
       <ToastContainer />
     </div>
     </div>
