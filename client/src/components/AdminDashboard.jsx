@@ -9,7 +9,7 @@ const AdminDashboard = () => {
   useEffect(() => {
     const fetchAllBooks = async () => {
       try {
-        const res = await axios.get("http://localhost:8800/books");
+        const res = await axios.get("https://libraryman.onrender.com/books");
         console.log(res.data);
         setBooks(res.data);
       } catch (err) {
@@ -21,7 +21,7 @@ const AdminDashboard = () => {
 
   const handleDelete = async (id) => {
     try {
-      await axios.delete(`http://localhost:8800/books/${id}`);
+      await axios.delete(`https://libraryman.onrender.com/books/${id}`);
       window.location.reload();
     } catch (err) {
       console.log(err);

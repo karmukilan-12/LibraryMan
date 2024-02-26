@@ -20,7 +20,7 @@ const AddBooks = () => {
   const handleClick = async (e) => {
     e.preventDefault();
     try {
-      await axios.post("http://localhost:8800/books", book);
+      await axios.post("https://libraryman.onrender.com/books", book);
       navigate("/admindashboard");
     } catch (err) {
       console.log(err);

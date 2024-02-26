@@ -1,7 +1,7 @@
 import axios from "axios";
 import React, { useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import "./UpdateBooks.css"; // Import your CSS file
+import "./UpdateBooks.css"; 
 
 const UpdateBooks = () => {
   const [book, setBook] = useState({
@@ -25,7 +25,7 @@ const UpdateBooks = () => {
     e.preventDefault();
 
     try {
-      await axios.put(`http://localhost:8800/books/${bookId}`, book);
+      await axios.put(`https://libraryman.onrender.com/books/${bookId}`, book);
       navigate("/admindashboard");
     } catch (err) {
       console.log(err);
